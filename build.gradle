@@ -2,6 +2,14 @@ plugins {
     id 'java'
 }
 
+tasks.register('run', JavaExec) {
+    group = "application"
+    description = "Run the main class"
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.example.Main'
+    standardInput = System.in
+}
+
 group = 'org.example'
 version = '1.0-SNAPSHOT'
 

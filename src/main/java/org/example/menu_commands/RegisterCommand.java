@@ -11,7 +11,7 @@ public class RegisterCommand implements MenuCommand {
     private final AuthenticationService authService;
     private final Scanner scanner;
 
-    public RegisterCommand() {
+    public RegisterCommand(Scanner scanner) {
         URL resource = getClass().getClassLoader().getResource("authentication/passwords.txt");
         File file;
         try {
@@ -22,7 +22,7 @@ public class RegisterCommand implements MenuCommand {
             throw new RuntimeException("Failed to initialize the Authentication Service");
         }
 
-        scanner = new Scanner(System.in);
+        this.scanner = scanner;
     }
 
     public RegisterCommand(Scanner scanner, AuthenticationService authServ) {

@@ -11,7 +11,7 @@ public class LoginCommand implements MenuCommand {
     private final AuthenticationService authService;
     private final Scanner scanner;
 
-    public LoginCommand() {
+    public LoginCommand(Scanner scanner) {
         URL resource = getClass().getClassLoader().getResource("authentication/passwords.txt");
         File file;
         try {
@@ -22,7 +22,7 @@ public class LoginCommand implements MenuCommand {
             throw new RuntimeException("Failed to initialize the Authentication Service");
         }
 
-        scanner = new Scanner(System.in);
+        this.scanner = scanner;
     }
 
     public LoginCommand(Scanner scanner, AuthenticationService authServ) {
