@@ -10,8 +10,9 @@ import java.util.Scanner;
 public class RegisterCommand implements MenuCommand {
     private final AuthenticationService authService;
     private final Scanner scanner;
+    private final Runnable onSuccess;
 
-    public RegisterCommand(Scanner scanner) {
+    public RegisterCommand(Scanner scanner, Runnable onSuccess) {
         URL resource = getClass().getClassLoader().getResource("authentication/passwords.txt");
         File file;
         try {
@@ -23,11 +24,13 @@ public class RegisterCommand implements MenuCommand {
         }
 
         this.scanner = scanner;
+        this.onSuccess = onSuccess;
     }
 
-    public RegisterCommand(Scanner scanner, AuthenticationService authServ) {
+    public RegisterCommand(Scanner scanner, AuthenticationService authServ, Runnable onSuccess) {
         authService = authServ;
         this.scanner = scanner;
+        this.onSuccess = onSuccess;
     }
 
     @Override
@@ -53,8 +56,11 @@ public class RegisterCommand implements MenuCommand {
                 System.out.println("Passwords do not match. Try again");
         } while (!first_password.equals(second_password));
 
-        if (authService.registerUser(username, first_password))
+        if (authService.registerUser(username, first_password)) {
             System.out.println("Password set successfully.");
-        else System.out.println("Failed to set the password");
+            onSuccess.run();
+        } else {
+            System.out.println("Failed to set the password");
+        }
     }
 }

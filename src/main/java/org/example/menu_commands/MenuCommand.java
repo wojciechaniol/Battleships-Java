@@ -1,6 +1,6 @@
 package org.example.menu_commands;
 
 public interface MenuCommand {
-    String getLabel();
-    void execute();
+    public String getLabel();
+    public void execute();
 }

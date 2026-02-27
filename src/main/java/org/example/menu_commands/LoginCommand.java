@@ -10,8 +10,9 @@ import java.util.Scanner;
 public class LoginCommand implements MenuCommand {
     private final AuthenticationService authService;
     private final Scanner scanner;
+    private final Runnable onSuccess;
 
-    public LoginCommand(Scanner scanner) {
+    public LoginCommand(Scanner scanner, Runnable onSuccess) {
         URL resource = getClass().getClassLoader().getResource("authentication/passwords.txt");
         File file;
         try {
@@ -23,11 +24,13 @@ public class LoginCommand implements MenuCommand {
         }
 
         this.scanner = scanner;
+        this.onSuccess = onSuccess;
     }
 
-    public LoginCommand(Scanner scanner, AuthenticationService authServ) {
+    public LoginCommand(Scanner scanner, AuthenticationService authServ, Runnable onSuccess) {
         this.scanner = scanner;
         this.authService = authServ;
+        this.onSuccess = onSuccess;
     }
 
     @Override
@@ -46,6 +49,7 @@ public class LoginCommand implements MenuCommand {
 
         if (success) {
             System.out.println("Login successful, " + username);
+            onSuccess.run();
         }
         else {
             System.out.println("Invalid credentials");

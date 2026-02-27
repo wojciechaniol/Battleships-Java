@@ -1,8 +1,7 @@
 package org.example;
 
-import org.example.menu.Menu;
-import org.example.menu_commands.LoginCommand;
-import org.example.menu_commands.RegisterCommand;
+import org.example.menu.*;
+import org.example.menu_commands.*;
 
 import java.util.Scanner;
 
@@ -11,9 +10,25 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Menu mainMenu = new Menu(scanner);
-        mainMenu.addCommand(new LoginCommand(scanner));
-        mainMenu.addCommand(new RegisterCommand(scanner));
-        mainMenu.renderMenu();
+        MenuManager manager = new MenuManager();
+
+        IMenu mainMenu = new Menu(scanner);
+        IMenu createGameMenu = new CreateGameMenu(scanner);
+        IMenu typeOfGameMenu = new TypeOfGameMenu(scanner);
+        IMenu functionNotAvailableMenu = new FunctionNotAvailableMenu(scanner);
+
+        mainMenu.addCommand(new LoginCommand(scanner, () -> manager.push(createGameMenu)));
+        mainMenu.addCommand(new RegisterCommand(scanner, () -> manager.push(createGameMenu)));
+
+        createGameMenu.addCommand(new CreateNewGameCommand(() -> manager.push(typeOfGameMenu)));
+        createGameMenu.addCommand(new JoinGameCommand(() -> manager.push(functionNotAvailableMenu)));
+
+        typeOfGameMenu.addCommand(new PlayOnlineCommand(() -> manager.push(functionNotAvailableMenu)));
+        typeOfGameMenu.addCommand(new PlayOfflineCommand(() -> manager.push(functionNotAvailableMenu)));
+
+        functionNotAvailableMenu.addCommand(new GoBackCommand((() -> manager.pop())));
+
+        manager.push(mainMenu);
+        manager.run();
     }
 }

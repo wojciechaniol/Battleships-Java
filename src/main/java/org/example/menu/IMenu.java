@@ -20,7 +20,7 @@ public abstract class IMenu {
         commands.add(command);
     }
 
-    protected void printMenu(String menuLabel) {
+    protected void printMenu() {
         System.out.println("==== " + menuLabel + " ====");
         for (int i = 0; i < commands.size(); i++) {
             System.out.println((i+1) + ". " + commands.get(i).getLabel());
@@ -47,17 +47,16 @@ public abstract class IMenu {
         }
     }
 
-    public void renderMenu() {
-        while(true) {
-            printMenu(menuLabel);
-            int choice = readChoice();
+    public void renderMenu(MenuManager menuManager) {
+        printMenu();
+        int choice = readChoice();
 
-            if (choice == 0) {
-                System.out.println("Goodbye!");
-                break;
-            }
-
-            executeChoice(choice);
+        if (choice == 0) {
+            System.out.println("Goodbye!");
+            menuManager.clearAll();
+            return;
         }
+
+        executeChoice(choice);
     }
 }
