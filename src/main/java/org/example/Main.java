@@ -15,6 +15,7 @@ public class Main {
         IMenu mainMenu = new Menu(scanner);
         IMenu createGameMenu = new CreateGameMenu(scanner);
         IMenu typeOfGameMenu = new TypeOfGameMenu(scanner);
+        IMenu aiOrAnotherPlayerMenu = new AIorAnotherPlayerMenu(scanner);
         IMenu functionNotAvailableMenu = new FunctionNotAvailableMenu(scanner);
 
         mainMenu.addCommand(new LoginCommand(scanner, () -> manager.push(createGameMenu)));
@@ -25,6 +26,9 @@ public class Main {
 
         typeOfGameMenu.addCommand(new PlayOnlineCommand(() -> manager.push(functionNotAvailableMenu)));
         typeOfGameMenu.addCommand(new PlayOfflineCommand(() -> manager.push(functionNotAvailableMenu)));
+
+        aiOrAnotherPlayerMenu.addCommand(new AnotherPlayerCommand(() -> manager.push(functionNotAvailableMenu)));
+        aiOrAnotherPlayerMenu.addCommand(new AIOpponentCommand(() -> manager.push(functionNotAvailableMenu)));
 
         functionNotAvailableMenu.addCommand(new GoBackCommand((() -> manager.pop())));
 
