@@ -2,7 +2,7 @@ package org.example.player;
 
 import java.util.UUID;
 
-public class Player {
+public class Player implements IPlayer {
     private String nickname;
     private int gamesPlayed;
     private int gamesWon;
@@ -17,6 +17,7 @@ public class Player {
         status = PlayerStatus.ONLINE; // status should depend on heartbeats and should not be hardcoded
     }
 
+    @Override
     public String getNickname() {
         return nickname;
     }
