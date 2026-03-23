@@ -12,6 +12,9 @@ public class Game {
     // GameState
 
     public Game(GamePlayer p1, GamePlayer p2) {
+        if (p1 == null || p2 == null)
+            throw new IllegalArgumentException("Players can't be null");
+
         players = new ArrayList<>();
         currentPlayer = null;
         players.add(p1);
@@ -31,7 +34,7 @@ public class Game {
     }
 
     private void setCurrentPlayer(int index) {
-        if (index != 0 || index != 1)
+        if (index != 0 && index != 1)
             throw new IllegalArgumentException("Index should have value either 0 or 1");
 
         currentPlayer = players.get(index);

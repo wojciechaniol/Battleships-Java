@@ -1,22 +1,21 @@
 package org.example.gameLogic;
 
 public class ShootsBoard extends AbstractBoard {
-    // process shoots
     public ShootsBoard() {
         super();
         initializeSquareBoard();
         initializeVisualBoard();
     }
 
-    private void markSquareBoard(int x, int y) {
+    protected void markSquareBoard(int x, int y) {
         board[y][x].setHit();
     }
 
-    private void markShipPresenceSquareBoard(int x, int y) {
+    protected void markShipPresenceSquareBoard(int x, int y) {
         board[y][x].markShipThere();
     }
 
-    private void changeVisualBoard(int x, int y, char character) {
+    protected void changeVisualBoard(int x, int y, char character) {
         visualBoard[y][x] = character;
     }
 
@@ -37,7 +36,7 @@ public class ShootsBoard extends AbstractBoard {
         markShipPresenceSquareBoard(x, y);
     }
 
-    private boolean isEmpty(int x, int y) {
+    protected boolean isEmpty(int x, int y) {
         return !board[y][x].getIsShipThere();
     }
 
@@ -66,7 +65,7 @@ public class ShootsBoard extends AbstractBoard {
         }
     }
 
-    private void drawMissesOnSidesOfSinkingShip(int current_y, int side_x, int bottom_y, int upper_y) {
+    protected void drawMissesOnSidesOfSinkingShip(int current_y, int side_x, int bottom_y, int upper_y) {
         char missChar = '●';
 
         if (Coordinate.isNumberInBoundaries(side_x+1) && isEmpty(side_x, current_y)) {

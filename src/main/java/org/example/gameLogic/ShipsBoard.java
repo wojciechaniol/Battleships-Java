@@ -11,17 +11,21 @@ public class ShipsBoard extends AbstractBoard {
         board[y][x].setShipThere(ship);
     }
 
-    private boolean isSurroundingAreaClear(int startingLetter, int startingNumber, int endingLetter, int endingNumber, boolean isHorizontal) {
+    private void placeShipVisualBoard(int x, int y) {
+        visualBoard[y][x] = '⬛';
+    }
+
+    protected boolean isSurroundingAreaClear(int startingLetter, int startingNumber, int endingLetter, int endingNumber, boolean isHorizontal) {
         int longStart = isHorizontal ? startingLetter : startingNumber;
         int longEnd   = isHorizontal ? endingLetter   : endingNumber;
         int shortPos  = isHorizontal ? startingNumber : startingLetter;
 
-        for (int i = longStart - 2; i < longEnd + 1; i++) {
+        for (int i = longStart - 1; i < longEnd + 2; i++) {
             if (!Coordinate.isNumberInBoundaries(i + 1)) continue;
 
-            for (int j = shortPos - 2; j < shortPos + 1; j++) {
+            for (int j = shortPos - 1; j < shortPos + 2; j++) {
                 if (!Coordinate.isNumberInBoundaries(j + 1)
-                        || (j == shortPos - 1 && (i >= longStart - 1 && i < longEnd))) {
+                        || (j == shortPos && (i >= longStart && i <= longEnd))) {
                     continue;
                 }
 
@@ -41,7 +45,7 @@ public class ShipsBoard extends AbstractBoard {
         return board[y][x].getIsShipThere();
     }
 
-    private void shipPlacementErrorMessage(int number, char letter, int length, String additionalText) {
+    protected void shipPlacementErrorMessage(int number, char letter, int length, String additionalText) {
         System.out.println("The given coordinate: (" + number + ", " + letter + ")" +
                 " doesn't allow to place a ship of length: " + length + "there");
 
@@ -73,7 +77,7 @@ public class ShipsBoard extends AbstractBoard {
             }
         }
 
-        if (isSurroundingAreaClear(startingLetter, startingNumber, endingLetter, startingLetter, true)) {
+        if (!isSurroundingAreaClear(startingLetter-1, startingNumber-1, endingLetter-1, startingLetter-1, true)) {
             shipPlacementErrorMessage(startingNumber, letter, length, "There is another ship in this area");
             return false;
         }
@@ -108,7 +112,7 @@ public class ShipsBoard extends AbstractBoard {
             }
         }
 
-        if (isSurroundingAreaClear(startingLetter, startingNumber, startingLetter, endingNumber, false)) {
+        if (!isSurroundingAreaClear(startingLetter-1, startingNumber-1, startingLetter-1, endingNumber-1, false)) {
             shipPlacementErrorMessage(startingNumber, letter, length, "There is another ship in this area");
             return false;
         }
@@ -123,10 +127,9 @@ public class ShipsBoard extends AbstractBoard {
 
     public void processHit(int x, int y) {
         board[y][x].setHit();
-        board[y][x].getShip().incrementHit();
-    }
 
-    private void placeShipVisualBoard(int x, int y) {
-        visualBoard[y][x] = '⬛';
+        if (isShipPlacedThere(x, y)) {
+            board[y][x].getShip().incrementHit();
+        }
     }
 }

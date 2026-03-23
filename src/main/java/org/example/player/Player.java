@@ -9,7 +9,7 @@ public class Player implements IPlayer {
     private final UUID playerID;
     private PlayerStatus status;
 
-    Player(String nickname) {
+    public Player(String nickname) {
         this.nickname = nickname;
         gamesPlayed = 0;
         gamesWon = 0;

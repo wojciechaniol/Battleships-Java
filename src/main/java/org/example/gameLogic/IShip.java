@@ -5,12 +5,19 @@ public abstract class IShip {
     private int hitsNumber;
 
     protected IShip() {
-        isAlive = false;
+        isAlive = true;
         hitsNumber = 0;
+    }
+
+    public int getHitsNumber() {
+        return hitsNumber;
     }
 
     public void incrementHit() {
         hitsNumber++;
+
+        if (hitsNumber == getLength())
+            this.sink();
     }
 
     public void sink() {

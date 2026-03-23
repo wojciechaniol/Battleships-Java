@@ -16,7 +16,7 @@ public class GameRoom {
         GamePlayer gamePlayer1 = new GamePlayer(player1);
         players.add(gamePlayer1);
 
-        game = new Game();
+//        game = new Game();
     }
 
     public void addGuestPlayer(String nickname) {

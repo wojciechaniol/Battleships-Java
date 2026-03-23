@@ -13,12 +13,11 @@ public class Coordinate {
     public Coordinate(char letter, int number) {
         char upperCaseLetter;
         upperCaseLetter = Character.toUpperCase(letter);
-        if (number < NUMBER_LOWER_BOUND || number > NUMBER_UPPER_BOUND
-                || upperCaseLetter < LETTER_LOWER_BOUND || upperCaseLetter > LETTER_UPPER_BOUND)
+        if (!isNumberInBoundaries(number) || !isLetterInBoundaries(upperCaseLetter))
             throw new IllegalArgumentException("Coordinate is bounded between 1 and 10 and A and J");
 
         this.letter = upperCaseLetter;
-        this.numberCorrespondingToLetter = (int)(upperCaseLetter-65);
+        this.numberCorrespondingToLetter = (int)(upperCaseLetter-64);
         this.number = number;
     }
 
@@ -35,7 +34,9 @@ public class Coordinate {
     }
 
     public static boolean isLetterInBoundaries(char letter) {
-        return (letter >= LETTER_LOWER_BOUND && letter <= LETTER_UPPER_BOUND);
+        char upperCaseLetter = Character.toUpperCase(letter);
+
+        return (upperCaseLetter >= LETTER_LOWER_BOUND && upperCaseLetter <= LETTER_UPPER_BOUND);
     }
 
     public static boolean isNumberInBoundaries(int number) {

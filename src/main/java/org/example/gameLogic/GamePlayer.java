@@ -11,7 +11,7 @@ public class GamePlayer {
     private boolean isReady;
     private ShipsBoard shipsBoard;
     private ShootsBoard shootsBoard;
-    private ArrayList<IShip> fleet;
+    private final ArrayList<IShip> fleet;
 
     public GamePlayer(String nickname) {
         player = new GuestPlayer(nickname);
@@ -49,12 +49,19 @@ public class GamePlayer {
     }
 
     public boolean allShipsSank() {
+        if (fleet.isEmpty())
+            throw new RuntimeException("There are no ships in the fleet");
+
         for (IShip ship : fleet) {
             if (ship.isAlive())
                 return false;
         }
 
         return true;
+    }
+
+    public ArrayList<IShip> getFleet() {
+        return fleet;
     }
 
     public ShipsBoard getShipsBoard() {

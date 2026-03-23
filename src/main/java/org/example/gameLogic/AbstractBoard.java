@@ -26,16 +26,16 @@ public abstract class AbstractBoard {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if (i == 0 && j == 0) {
-                    visualBoard[i][j] = '┌';
+                    visualBoard[i][j] = '┌'; // OK
                 } else if (i == 0 && j == BOARD_SIZE-1) {
-                    visualBoard[i][j] = '└';
+                    visualBoard[i][j] = '┐'; // OK
                 } else if (i == BOARD_SIZE-1 && j == 0) {
-                    visualBoard[i][j] = '┐';
+                    visualBoard[i][j] = '└'; // OK
                 } else if (i == BOARD_SIZE-1 && j == BOARD_SIZE-1) {
                     visualBoard[i][j] = '┘';
-                } else if (i == 0 || i == BOARD_SIZE-1) {
+                } else if (j == 0 || j == BOARD_SIZE-1) {
                     visualBoard[i][j] = '│';
-                } else if (j == 0 || j == BOARD_SIZE - 1) {
+                } else if (i == 0 || i == BOARD_SIZE - 1) {
                     visualBoard[i][j] = '─';
                 } else {
                     visualBoard[i][j] = ' ';

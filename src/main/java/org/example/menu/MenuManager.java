@@ -1,7 +1,6 @@
 package org.example.menu;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 
 public class MenuManager {
