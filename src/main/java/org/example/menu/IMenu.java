@@ -1,11 +1,13 @@
 package org.example.menu;
 
+import org.example.UI.IScreen;
+import org.example.UI.ScreenManager;
 import org.example.menu_commands.MenuCommand;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public abstract class IMenu {
+public abstract class IMenu implements IScreen {
     protected final ArrayList<MenuCommand> commands;
     protected final Scanner scanner;
     protected final String menuLabel;
@@ -47,13 +49,13 @@ public abstract class IMenu {
         }
     }
 
-    public void renderMenu(MenuManager menuManager) {
+    public void run(ScreenManager screenManager) {
         printMenu();
         int choice = readChoice();
 
         if (choice == 0) {
             System.out.println("Goodbye!");
-            menuManager.clearAll();
+            screenManager.clearAll();
             return;
         }
 

@@ -17,9 +17,7 @@ class AuthenticationServiceTest {
     @BeforeEach
     void setUp() {
         try {
-            URL resource = getClass().getClassLoader().getResource("authentication/passwordsTestFile.txt");
-            assertNotNull(resource);
-            File file = new File(resource.toURI());
+            File file = File.createTempFile("passwordsTestFile", ".txt");
             authServ = new AuthenticationService(file);
         } catch (Exception e) {
             System.err.println("An error occurred when creating new Authentication Service");

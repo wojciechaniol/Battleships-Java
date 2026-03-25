@@ -1,10 +1,18 @@
 package org.example.menu_commands;
 
-public class AnotherPlayerCommand implements MenuCommand {
-    private final Runnable onSuccess;
+import org.example.UI.OfflineGame.GameRoomScreen;
+import org.example.UI.ScreenManager;
+import org.example.gameLogic.GameRoom;
 
-    public AnotherPlayerCommand(Runnable onSuccess) {
-        this.onSuccess = onSuccess;
+import java.util.Scanner;
+
+public class AnotherPlayerCommand implements MenuCommand {
+    private final ScreenManager manager;
+    private final Scanner scanner;
+
+    public AnotherPlayerCommand(ScreenManager manager, Scanner scanner) {
+        this.manager = manager;
+        this.scanner = scanner;
     }
 
     @Override
@@ -14,6 +22,7 @@ public class AnotherPlayerCommand implements MenuCommand {
 
     @Override
     public void execute() {
-        onSuccess.run();
+        GameRoom gameRoom = new GameRoom();
+        manager.push(new GameRoomScreen(gameRoom, manager, scanner));
     }
 }

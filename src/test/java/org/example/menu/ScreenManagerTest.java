@@ -1,5 +1,6 @@
 package org.example.menu;
 
+import org.example.UI.ScreenManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -8,13 +9,13 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class MenuManagerTest {
-    private MenuManager manager;
+class ScreenManagerTest {
+    private ScreenManager manager;
     private IMenu menu;
 
     @BeforeEach
     void setUp() {
-        manager = new MenuManager();
+        manager = new ScreenManager();
         menu = new Menu(new Scanner(new ByteArrayInputStream("".getBytes())));
     }
 

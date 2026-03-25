@@ -1,5 +1,8 @@
 package org.example.gameLogic;
 
+import org.example.UI.IScreen;
+import org.example.UI.ScreenManager;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,7 +12,6 @@ public class Game {
     ArrayList<GamePlayer> players;
     GamePlayer currentPlayer;
     int currentPlayerIndex;
-    // GameState
 
     public Game(GamePlayer p1, GamePlayer p2) {
         if (p1 == null || p2 == null)
@@ -59,6 +61,9 @@ public class Game {
     }
 
     public boolean fireShoot(Coordinate coord) {
+        if (coord == null)
+            throw new IllegalArgumentException("Coordinate can't be null");
+
         int x = coord.getNumberCorrespondingToLetter()-1;
         int y = coord.getNumber()-1;
         int indexOfOpposingPlayer = abs(currentPlayerIndex-1);

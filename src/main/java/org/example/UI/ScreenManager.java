@@ -1,16 +1,19 @@
-package org.example.menu;
+package org.example.UI;
+
+import org.example.menu.IMenu;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class MenuManager {
-    private final Deque<IMenu> stack;
+public class ScreenManager {
+    private final Deque<IScreen> stack;
 
-    public MenuManager() {
+    public ScreenManager() {
         stack = new ArrayDeque<>();
     }
 
-    public void push(IMenu menu) {
+    public void push(IScreen menu) {
+        System.out.print("\033[H\033[2J");
         stack.push(menu);
     }
 
@@ -26,7 +29,7 @@ public class MenuManager {
 
     public void run() {
         while (!stack.isEmpty()) {
-            stack.peek().renderMenu(this);
+            stack.peek().run(this);
         }
     }
 

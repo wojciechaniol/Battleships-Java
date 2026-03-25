@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.UI.ScreenManager;
 import org.example.menu.*;
 import org.example.menu_commands.*;
 
@@ -10,7 +11,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        MenuManager manager = new MenuManager();
+        ScreenManager manager = new ScreenManager();
 
         IMenu mainMenu = new Menu(scanner);
         IMenu createGameMenu = new CreateGameMenu(scanner);
@@ -25,12 +26,12 @@ public class Main {
         createGameMenu.addCommand(new JoinGameCommand(() -> manager.push(functionNotAvailableMenu)));
 
         typeOfGameMenu.addCommand(new PlayOnlineCommand(() -> manager.push(functionNotAvailableMenu)));
-        typeOfGameMenu.addCommand(new PlayOfflineCommand(() -> manager.push(functionNotAvailableMenu)));
+        typeOfGameMenu.addCommand(new PlayOfflineCommand(() -> manager.push(aiOrAnotherPlayerMenu)));
 
-        aiOrAnotherPlayerMenu.addCommand(new AnotherPlayerCommand(() -> manager.push(functionNotAvailableMenu)));
+        aiOrAnotherPlayerMenu.addCommand(new AnotherPlayerCommand(manager, scanner));
         aiOrAnotherPlayerMenu.addCommand(new AIOpponentCommand(() -> manager.push(functionNotAvailableMenu)));
 
-        functionNotAvailableMenu.addCommand(new GoBackCommand((() -> manager.pop())));
+        functionNotAvailableMenu.addCommand(new GoBackCommand((manager::pop)));
 
         manager.push(mainMenu);
         manager.run();
