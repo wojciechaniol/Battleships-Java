@@ -2,38 +2,50 @@ package battleships.UI.OfflineGame.GameStates.PlacingShipsStates;
 
 import battleships.UI.OfflineGame.GameStates.IState;
 import battleships.UI.OfflineGame.GameStates.PlacingShipsState;
-import battleships.gameLogic.Coordinate;
-import battleships.gameLogic.GamePlayer;
+import battleships.gameLogic.*;
 
 import java.util.Scanner;
 
 public class PlacementResultState implements IState {
     private final Scanner scanner;
-    private GamePlayer currentPlayer;
-    private PlacementContext context;
+    private final Game game;
+    private final PlacementContext context;
+    private boolean success;
 
-    public PlacementResultState(GamePlayer player, Scanner scanner, PlacementContext context) {
-        this.currentPlayer = player;
+    public PlacementResultState(Game game, Scanner scanner, PlacementContext context) {
+        this.game = game;
         this.scanner = scanner;
         this.context = context;
+        success = false;
     }
 
     @Override
     public void render() {
-        // place the ship in player's board
-        // add the ship to the fleet
-        // render success or failure
+        int shipsLength = context.getLength();
+        IShip ship = IShip.ofLength(shipsLength);
+
+        if (context.getOrientation() == 1) {
+            success = game.placeShipHorizontally(ship, context.getCoord());
+        } else {
+            success = game.placeShipVertically(ship, context.getCoord());
+        }
+
+        if (success)
+            System.out.println("Ship placed successfully!");
+        else
+            System.out.println("It was not possible to place the ship there. Try again");
     }
 
     @Override
     public IState takeInput() {
-        // if success return null
-        // else clear context and return ChoosingOrientation to repeat the process
-        return null;
-    }
+        System.out.println("Press any key and Enter to continue...");
+        scanner.nextLine();
 
-    @Override
-    public void setPlayer(GamePlayer player) {
-        currentPlayer = player;
+        if (success) {
+            return new PlacingShipsState(game, scanner);
+        } else {
+            context.clearContext();
+            return new ChoosingOrientationState(game, scanner, context);
+        }
     }
 }

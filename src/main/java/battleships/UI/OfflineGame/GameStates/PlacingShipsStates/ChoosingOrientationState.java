@@ -1,17 +1,17 @@
 package battleships.UI.OfflineGame.GameStates.PlacingShipsStates;
 
 import battleships.UI.OfflineGame.GameStates.IState;
-import battleships.gameLogic.GamePlayer;
+import battleships.gameLogic.Game;
 
 import java.util.Scanner;
 
 public class ChoosingOrientationState implements IState {
     private final Scanner scanner;
-    private GamePlayer currentPlayer;
-    private PlacementContext context;
+    private final Game game;
+    private final PlacementContext context;
 
-    public ChoosingOrientationState(GamePlayer player, Scanner scanner, PlacementContext context) {
-        this.currentPlayer = player;
+    public ChoosingOrientationState(Game game, Scanner scanner, PlacementContext context) {
+        this.game = game;
         this.scanner = scanner;
         this.context = context;
     }
@@ -32,15 +32,10 @@ public class ChoosingOrientationState implements IState {
             try {
                 int choice = Integer.parseInt(scanner.nextLine());
                 context.setOrientation(choice);
-                return new ChoosingCoordinateState(currentPlayer, scanner, context);
+                return new ChoosingCoordinateState(game, scanner, context);
             } catch (IllegalArgumentException e) {
                 System.out.print("Invalid number. Try again: ");
             }
         }
-    }
-
-    @Override
-    public void setPlayer(GamePlayer player) {
-        currentPlayer = player;
     }
 }

@@ -10,6 +10,10 @@ public class ScreenManager {
         stack = new ArrayDeque<>();
     }
 
+    public void clearScreen() {
+        System.out.println("\033[H\033[2J");
+    }
+
     public void push(IScreen menu) {
         System.out.print("\033[H\033[2J");
         stack.push(menu);

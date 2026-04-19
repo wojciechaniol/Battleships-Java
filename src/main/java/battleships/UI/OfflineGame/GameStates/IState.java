@@ -7,5 +7,4 @@ import java.util.Scanner;
 public interface IState {
     void render();
     IState takeInput();
-    void setPlayer(GamePlayer player);
 }

@@ -30,4 +30,14 @@ public abstract class IShip {
     }
 
     public abstract int getLength();
+
+    public static IShip ofLength(int length) {
+        return switch (length) {
+            case 1 -> new ShipOne();
+            case 2 -> new ShipTwo();
+            case 3 -> new ShipThree();
+            case 4 -> new ShipFour();
+            default -> throw new IllegalArgumentException("Invalid ship length: " + length);
+        };
+    }
 }

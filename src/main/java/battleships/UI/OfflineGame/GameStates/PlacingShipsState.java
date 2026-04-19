@@ -1,54 +1,35 @@
 package battleships.UI.OfflineGame.GameStates;
 
-import battleships.gameLogic.GamePlayer;
+import battleships.UI.OfflineGame.GameStates.PlacingShipsStates.ChoosingOrientationState;
+import battleships.UI.OfflineGame.GameStates.PlacingShipsStates.PlacementContext;
+import battleships.gameLogic.Game;
 
 import java.util.Scanner;
 
 public class PlacingShipsState implements IState {
-    private GamePlayer currentPlayer;
+    private final Game game;
     private final Scanner scanner;
     private IState currentState;
 
-    public PlacingShipsState(GamePlayer player, Scanner scanner) {
-        currentPlayer = player;
+    public PlacingShipsState(Game game, Scanner scanner) {
+        this.game = game;
         this.scanner = scanner;
-        currentState = null;
-    }
-
-    private void shipsCoordinates() {
-        System.out.println("The coordinate you input is where the ship will begin");
-        System.out.println("Input ships coordinate");
-    }
-
-    private void shipsLength() {
-        System.out.println("Choose ships length: ");
-    }
-
-    private void additionUnsuccessful() {
-        System.out.println("It was not possible to add this ship");
-        System.out.println("Try again");
-    }
-
-    private void additionSuccessful() {
-        System.out.println("You successfully added a ship");
-    }
-
-    private void setCurrentState(IState comm) {
-        currentState = comm;
+        currentState = new ChoosingOrientationState(game, scanner, new PlacementContext());
     }
 
     @Override
     public void render() {
-        currentPlayer.getShipsBoard().renderVisualBoard();
+        game.getCurrentPlayerShipsBoard().renderVisualBoard();
+        if (currentState != null)
+            currentState.render();
     }
 
     @Override
     public IState takeInput() {
-        return null;
+        if (currentState != null)
+            currentState = currentState.takeInput();
+
+        return currentState;
     }
 
-    @Override
-    public void setPlayer(GamePlayer player) {
-        this.currentPlayer = player;
-    }
 }

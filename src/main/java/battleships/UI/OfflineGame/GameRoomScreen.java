@@ -43,6 +43,7 @@ public class GameRoomScreen extends IMenu {
         if (commands.isEmpty())
             addCommands();
 
+        manager.clearScreen();
         printTitle();
         printPlayers();
         try {

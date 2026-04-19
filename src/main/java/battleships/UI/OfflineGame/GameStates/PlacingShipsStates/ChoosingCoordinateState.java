@@ -3,17 +3,17 @@ package battleships.UI.OfflineGame.GameStates.PlacingShipsStates;
 import battleships.UI.CoordinateParser;
 import battleships.UI.OfflineGame.GameStates.IState;
 import battleships.gameLogic.Coordinate;
-import battleships.gameLogic.GamePlayer;
+import battleships.gameLogic.Game;
 
 import java.util.Scanner;
 
 public class ChoosingCoordinateState implements IState {
     private final Scanner scanner;
-    private GamePlayer currentPlayer;
-    private PlacementContext context;
+    private final Game game;
+    private final PlacementContext context;
 
-    public ChoosingCoordinateState(GamePlayer player, Scanner scanner, PlacementContext context) {
-        this.currentPlayer = player;
+    public ChoosingCoordinateState(Game game, Scanner scanner, PlacementContext context) {
+        this.game = game;
         this.scanner = scanner;
         this.context = context;
     }
@@ -36,15 +36,10 @@ public class ChoosingCoordinateState implements IState {
                 String input = scanner.nextLine();
                 Coordinate coord = CoordinateParser.parse(input);
                 context.setCoord(coord);
-                return new ChoosingLengthState(currentPlayer, scanner, context);
+                return new ChoosingLengthState(game, scanner, context);
             } catch (IllegalArgumentException e) {
                 System.out.print("Invalid input: " + e.getMessage() + " Try again: ");
             }
         }
-    }
-
-    @Override
-    public void setPlayer(GamePlayer player) {
-        currentPlayer = player;
     }
 }

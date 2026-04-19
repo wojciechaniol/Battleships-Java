@@ -177,8 +177,9 @@ class ShipsBoardTest {
 
         testShipsBoard.placeShipHorizontally(ship, coord);
 
-        boolean success = testShipsBoard.isSurroundingClear(6, 2,
-                8, 2, true);
+        // test for a ship of length 4 at coordinate E3
+        boolean success = testShipsBoard.isSurroundingClear(4, 2,
+                7, 2, true);
 
         assertFalse(success);
     }
@@ -190,8 +191,9 @@ class ShipsBoardTest {
 
         testShipsBoard.placeShipHorizontally(ship, coord);
 
-        boolean success = testShipsBoard.isSurroundingClear(6, 2,
-                6, 4, false);
+        // test for a ship of length 3 on coordinate E3 placed vertically
+        boolean success = testShipsBoard.isSurroundingClear(4, 2,
+                4, 4, false);
 
         assertFalse(success);
     }
@@ -216,8 +218,8 @@ class ShipsBoardTest {
 
         testShipsBoard.placeShipHorizontally(ship, coord);
 
-        boolean success = testShipsBoard.isSurroundingClear(6, 2,
-                6, 4, false);
+        boolean success = testShipsBoard.isSurroundingClear(4, 2,
+                4, 4, false);
 
         assertFalse(success);
     }
@@ -317,7 +319,7 @@ class ShipsBoardTest {
 
         testShipsBoard.placeShipHorizontally(ship, coord);
 
-        for (int i = coord.getNumberCorrespondingToLetter()-1; i < coord.getNumberCorrespondingToLetter()+ship.getLength(); i++) {
+        for (int i = coord.getNumberCorrespondingToLetter()-1; i < coord.getNumberCorrespondingToLetter()+ship.getLength() - 1; i++) {
             assertTrue(testShipsBoard.isShipPlacedThere(i, coord.getNumber()-1));
         }
     }
@@ -326,11 +328,11 @@ class ShipsBoardTest {
     void placeShipHorizontallyCheckVisualPresence() {
         IShip ship = new ShipFour();
         Coordinate coord = new Coordinate('F', 2);
-        char presenceCheck = '⬛';
+        char presenceCheck = 'X'; //⬛
 
         testShipsBoard.placeShipHorizontally(ship, coord);
 
-        for (int i = coord.getNumberCorrespondingToLetter()-1; i < coord.getNumberCorrespondingToLetter()+ship.getLength(); i++) {
+        for (int i = coord.getNumberCorrespondingToLetter()-1; i < coord.getNumberCorrespondingToLetter()+ship.getLength() - 1; i++) {
             assertEquals(presenceCheck, testShipsBoard.getVisualBoard(i, coord.getNumber()-1));
         }
     }
@@ -374,7 +376,7 @@ class ShipsBoardTest {
 
         testShipsBoard.placeShipVertically(ship, coord);
 
-        for (int i = coord.getNumber()-1; i < coord.getNumber()+ship.getLength(); i++) {
+        for (int i = coord.getNumber()-1; i < coord.getNumber()+ship.getLength() - 1; i++) {
             assertTrue(testShipsBoard.isShipPlacedThere(coord.getNumberCorrespondingToLetter()-1, i));
         }
     }
@@ -383,11 +385,11 @@ class ShipsBoardTest {
     void placeShipVerticallyCheckVisualPresence() {
         IShip ship = new ShipFour();
         Coordinate coord = new Coordinate('H', 5);
-        char presenceCheck = '⬛';
+        char presenceCheck = 'X'; // ⬛
 
         testShipsBoard.placeShipVertically(ship, coord);
 
-        for (int i = coord.getNumber()-1; i < coord.getNumber()+ship.getLength(); i++) {
+        for (int i = coord.getNumber()-1; i < coord.getNumber()+ship.getLength() - 1; i++) {
             assertEquals(presenceCheck, testShipsBoard.getVisualBoard(coord.getNumberCorrespondingToLetter()-1, i));
         }
     }

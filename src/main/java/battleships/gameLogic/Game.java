@@ -18,6 +18,8 @@ public class Game {
         currentPlayer = null;
         players.add(p1);
         players.add(p2);
+        setBoards();
+        selectStartingPlayerRandomly();
     }
 
     private void setBoards() {
@@ -32,12 +34,34 @@ public class Game {
         players.get(1).setShootsBoard(shootsBoardP2);
     }
 
+    public ShipsBoard getCurrentPlayerShipsBoard() {
+        return currentPlayer.getShipsBoard();
+    }
+
+    public GamePlayer getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public boolean arePlayersShipsSet() { return currentPlayer.fleetCompleted(); }
+
+    public boolean tooManyShipsOfSize(int size) { return currentPlayer.tooManyShipsOfSize(size); }
+
+    public void changePlayer() {
+        int tempIndex = (currentPlayerIndex+1)%2;
+        currentPlayer = players.get(tempIndex);
+        currentPlayerIndex = tempIndex;
+    }
+
     private void setCurrentPlayer(int index) {
         if (index != 0 && index != 1)
             throw new IllegalArgumentException("Index should have value either 0 or 1");
 
         currentPlayer = players.get(index);
         currentPlayerIndex = index;
+    }
+
+    public ArrayList<GamePlayer> getPlayers() {
+        return players;
     }
 
     private void selectStartingPlayerRandomly() {
@@ -50,22 +74,20 @@ public class Game {
     }
 
     public boolean placeShipVertically(IShip ship, Coordinate coord) {
-        return currentPlayer.getShipsBoard().placeShipVertically(ship, coord);
+        return currentPlayer.placeShipVertically(ship, coord);
     }
 
     public boolean placeShipHorizontally(IShip ship, Coordinate coord) {
-        return currentPlayer.getShipsBoard().placeShipHorizontally(ship, coord);
+        return currentPlayer.placeShipHorizontally(ship, coord);
     }
 
     public boolean fireShoot(Coordinate coord) {
         if (coord == null)
             throw new IllegalArgumentException("Coordinate can't be null");
 
-        int x = coord.getNumberCorrespondingToLetter()-1;
-        int y = coord.getNumber()-1;
-        int indexOfOpposingPlayer = abs(currentPlayerIndex-1);
+        int indexOfOpposingPlayer = (currentPlayerIndex+1)%2;
 
-        return players.get(indexOfOpposingPlayer).getShipsBoard().isShipPlacedThere(x, y);
+        return players.get(indexOfOpposingPlayer).getShipsBoard().processShot(coord);
     }
 
     public boolean isGameOver() {

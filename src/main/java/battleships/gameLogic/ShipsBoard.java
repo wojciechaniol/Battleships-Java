@@ -12,8 +12,8 @@ public class ShipsBoard extends AbstractBoard {
     }
 
     private void placeShipVisualBoard(int x, int y) {
-        visualBoard[y][x] = '⬛';
-    }
+        visualBoard[y][x] = 'X';
+    } // ⬛
 
     protected boolean isSurroundingAreaClear(int startingLetter, int startingNumber, int endingLetter, int endingNumber, boolean isHorizontal) {
         int longStart = isHorizontal ? startingLetter : startingNumber;
@@ -41,13 +41,22 @@ public class ShipsBoard extends AbstractBoard {
         return true;
     }
 
+    public boolean processShot(Coordinate coord) {
+        int x = coord.getNumberCorrespondingToLetter()-1;
+        int y = coord.getNumber()-1;
+
+        processHit(x, y);
+
+        return isShipPlacedThere(x, y);
+    }
+
     public boolean isShipPlacedThere(int x, int y) {
         return board[y][x].getIsShipThere();
     }
 
     protected void shipPlacementErrorMessage(int number, char letter, int length, String additionalText) {
         System.out.println("The given coordinate: (" + number + ", " + letter + ")" +
-                " doesn't allow to place a ship of length: " + length + "there");
+                " doesn't allow to place a ship of length: " + length + " there");
 
         if (additionalText != null && !additionalText.isBlank())
             System.out.println(additionalText);
@@ -63,7 +72,7 @@ public class ShipsBoard extends AbstractBoard {
         int startingNumber = coord.getNumber();
         char letter = coord.getLetter();
         int startingLetter = coord.getNumberCorrespondingToLetter();
-        int endingLetter = (startingLetter + length);
+        int endingLetter = (startingLetter + length) - 1;
 
         if (!Coordinate.isNumberInBoundaries(endingLetter)) {
             shipPlacementErrorMessage(startingNumber, letter, length, "Ship is out of boundaries horizontally");
@@ -98,7 +107,7 @@ public class ShipsBoard extends AbstractBoard {
         int startingNumber = coord.getNumber();
         char letter = coord.getLetter();
         int startingLetter = coord.getNumberCorrespondingToLetter();
-        int endingNumber = startingNumber+length;
+        int endingNumber = (startingNumber+length) - 1;
 
         if (!Coordinate.isNumberInBoundaries(endingNumber)) {
             shipPlacementErrorMessage(startingNumber, letter, length, "Ship is out of boundaries vertically");
